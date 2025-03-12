@@ -1,12 +1,14 @@
+const form = document.getElementById("weather-form");
+const errorMessage = document.getElementById("errorMessage");
+const temperature = document.getElementById("temperature");
+
 const app = {
   init: () => {
     console.log("App initialized");
-    app.getFormWeatherCity();
+    app.getFormWeatherCityData();
   },
 
-  getFormWeatherCity: () => {
-    const form = document.getElementById("weather-form");
-
+  getFormWeatherCityData: () => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
@@ -20,8 +22,27 @@ const app = {
       });
 
       const data = await response.json();
+
+      if (data.status === "error") {
+        app.formErrorMessage(data.message);
+        return;
+      } else {
+        app.weatherByCity(data.message);
+      }
+
       console.log(data);
     });
+  },
+
+  formErrorMessage: (message) => {
+    errorMessage.textContent = "";
+    errorMessage.textContent = message;
+  },
+
+  weatherByCity: (message) => {
+    errorMessage.textContent = "";
+    temperature.textContent = "";
+    temperature.textContent = message;
   },
 };
 

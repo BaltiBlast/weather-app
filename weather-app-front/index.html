@@ -8,10 +8,16 @@
   <body>
     <h1>Weather App - By Balti</h1>
     <form id="weather-form" method="get">
-      <label for="city">City</label>
-      <input type="text" name="city" />
+      <div>
+        <label for="city">City</label>
+        <input type="text" name="city" />
+        <p id="errorMessage"></p>
+      </div>
       <button type="submit">Go</button>
     </form>
+    <div>
+      <p id="temperature"></p>
+    </div>
     <script src="./app.js"></script>
   </body>
 </html>
