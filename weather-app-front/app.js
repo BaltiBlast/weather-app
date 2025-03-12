@@ -6,6 +6,7 @@ const app = {
   init: () => {
     console.log("App initialized");
     app.getFormWeatherCityData();
+    app.mapInit();
   },
 
   getFormWeatherCityData: () => {
@@ -30,6 +31,16 @@ const app = {
         app.weatherByCity(data.message);
       }
     });
+  },
+
+  mapInit: () => {
+    // Crée une carte centrée sur Paris par défaut
+    const map = L.map("map", { zoomControl: false }).setView([48.8566, 2.3522], 10); // Coordonnées de Paris, tu pourras les changer par la suite
+
+    // Ajoute un fond de carte OpenStreetMap
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
   },
 
   formErrorMessage: (message) => {
