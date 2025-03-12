@@ -15,9 +15,14 @@ router.post("/weather-by-city", async (req, res) => {
       `http://api.weatherapi.com/v1/current.json?key=007dbb8619cf4d718cf101124251203&q=${city}`
     );
 
-    const temperature = response.data.current.temp_c;
+    const cityData = {
+      cityName: city,
+      temperature: response.data.current.temp_c,
+      lat: response.data.location.lat,
+      lon: response.data.location.lon,
+    };
 
-    res.json({ status: "success", message: `Il fait actuellement ${temperature}° à ${city}` });
+    res.json({ status: "success", cityData });
   } catch (error) {
     res.json({ status: "error", message: `"${city}" ne semble pas exister` });
   }

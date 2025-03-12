@@ -1,8 +1,9 @@
 const form = document.getElementById("weather-form");
 const errorMessage = document.getElementById("errorMessage");
-const temperature = document.getElementById("temperature");
 
 const app = {
+  map: null,
+
   init: () => {
     console.log("App initialized");
     app.getFormWeatherCityData();
@@ -28,31 +29,27 @@ const app = {
         app.formErrorMessage(data.message);
         return;
       } else {
-        app.weatherByCity(data.message);
+        errorMessage.textContent = "";
+        app.updateMap(data.cityData.lat, data.cityData.lon, data.cityData.temperature, data.cityData.cityName);
       }
     });
   },
 
   mapInit: () => {
-    // Crée une carte centrée sur Paris par défaut
-    const map = L.map("map", { zoomControl: false }).setView([48.8566, 2.3522], 10); // Coordonnées de Paris, tu pourras les changer par la suite
-
-    // Ajoute un fond de carte OpenStreetMap
+    app.map = L.map("map", { zoomControl: false }).setView([20, 0], 2);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    }).addTo(app.map);
+  },
+
+  updateMap: (lat, lon, temperature, city) => {
+    app.map.flyTo([lat, lon], 9);
+    L.marker([lat, lon]).addTo(app.map).bindPopup(`Il fait actuellement ${temperature}°C à ${city}`).openPopup();
   },
 
   formErrorMessage: (message) => {
     errorMessage.textContent = "";
-    temperature.textContent = "";
     errorMessage.textContent = message;
-  },
-
-  weatherByCity: (message) => {
-    errorMessage.textContent = "";
-    temperature.textContent = "";
-    temperature.textContent = message;
   },
 };
 
