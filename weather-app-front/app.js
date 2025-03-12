@@ -1,15 +1,21 @@
+// HTML elements
 const form = document.getElementById("weather-form");
 const errorMessage = document.getElementById("errorMessage");
 
-const app = {
-  map: null,
+// Leaflet map
+let map = null;
 
+// app methods
+const app = {
+  // ------------------------------------------------------------------------------------- //
+  // Method to initialize the app
   init: () => {
-    console.log("App initialized");
     app.getFormWeatherCityData();
     app.mapInit();
   },
 
+  // ------------------------------------------------------------------------------------- //
+  // Method to get the form data and send it to the server
   getFormWeatherCityData: () => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -35,18 +41,24 @@ const app = {
     });
   },
 
+  // ------------------------------------------------------------------------------------- //
+  // Method to initialize the map
   mapInit: () => {
-    app.map = L.map("map", { zoomControl: false }).setView([20, 0], 2);
+    map = L.map("map", { zoomControl: false }).setView([20, 0], 2);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(app.map);
+    }).addTo(map);
   },
 
+  // ------------------------------------------------------------------------------------- //
+  // Method to update the map
   updateMap: (lat, lon, temperature, city) => {
-    app.map.flyTo([lat, lon], 9);
-    L.marker([lat, lon]).addTo(app.map).bindPopup(`Il fait actuellement ${temperature}°C à ${city}`).openPopup();
+    map.flyTo([lat, lon], 9);
+    L.marker([lat, lon]).addTo(map).bindPopup(`Il fait actuellement ${temperature}°C à ${city}`).openPopup();
   },
 
+  // ------------------------------------------------------------------------------------- //
+  // Method to display an error message
   formErrorMessage: (message) => {
     errorMessage.textContent = "";
     errorMessage.textContent = message;
