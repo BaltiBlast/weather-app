@@ -29,13 +29,12 @@ const app = {
       } else {
         app.weatherByCity(data.message);
       }
-
-      console.log(data);
     });
   },
 
   formErrorMessage: (message) => {
     errorMessage.textContent = "";
+    temperature.textContent = "";
     errorMessage.textContent = message;
   },
 
